@@ -31,9 +31,9 @@ console.log('Will read file!')
 /* 
 // ==================== SERVIDOR BASICO ==================== \\
 
-const http = require('http')
+const http = require('http') // Para criar o servidor
 
-// cria o servidor
+// declara o servidor
 const server = http.createServer((req, res) => { 
     //console.log(req)
     res.end('🤖 - Olá do servidor')
@@ -47,24 +47,41 @@ server.listen(8000, '127.0.0.1', (err) => {
 
 // ==================== API BASICA ==================== \\
 const fs = require('fs')
-const http = require('http')
+const http = require('http') // para criar o servidor
+const url = require('url') // para conseguir passar variaveis pela url
+const replaceTemplate = require('./modules/replaceTemplate')
+
+
+const templateOverview = fs.readFileSync(`${__dirname}/templates/template-overview.html`, 'utf-8')
+const templateCard = fs.readFileSync(`${__dirname}/templates/template-card.html`, 'utf-8')
+const templateProduct = fs.readFileSync(`${__dirname}/templates/template-product.html`, 'utf-8')
 
 const data = fs.readFileSync(`${__dirname}/dev-data/data.json`, 'utf-8')
 const dataObj = JSON.parse(data)
 // cria o servidor
 const server = http.createServer((req, res) => { 
-    console.log(req.url)
-
-
-    const pathName = req.url
-    if (pathName === '/' || pathName === "/overview"){
-        res.end('This is the overview page')
-    } else if (pathName === "/product") {
-        res.end('This is the product page')
-    } else if (pathName === "/api") {
+    const { pathname, searchParams } = new URL(req.url, 'http://127.0.0.1/')
+    // overview
+    if (pathname === '/' || pathname === "/overview"){ 
+        res.writeHead(200, {'Content-Type': 'text/html'})
+        const cardsHtml = dataObj.map(el => replaceTemplate(templateCard, el)).join('')
+        const output = templateOverview.replace(/{%PRODUCT_CARDS%}/g, cardsHtml)
+        res.end(output)
+    } 
+    //product
+    else if (pathname === "/product") {
+        res.writeHead(200, {'Content-Type': 'text/html'})
+        const product = dataObj[searchParams.get('id')]
+        const output = replaceTemplate(templateProduct, product)
+        res.end(output)
+    }
+    //API
+    else if (pathname === "/api") {
         res.writeHead(200, {'Content-Type': 'application/json'})
         res.end(data)
-    } else {
+    }
+    // Erro
+    else {
         res.writeHead(404, {
             'Content-Type': 'text/html',
             'custom-header': 'hello world'
