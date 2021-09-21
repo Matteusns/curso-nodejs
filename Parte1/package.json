@@ -1,0 +1,26 @@
+{
+  "name": "curso-node",
+  "version": "1.0.0",
+  "description": "Aprendendo NodeJS",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon index.js"
+  },
+  "author": "Mateus Nascimento de Sousa",
+  "license": "ISC",
+  "dependencies": {
+    "slugify": "^1.6.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.12"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Matteusns/curso-nodejs.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Matteusns/curso-nodejs/issues"
+  },
+  "homepage": "https://github.com/Matteusns/curso-nodejs#readme"
+}
