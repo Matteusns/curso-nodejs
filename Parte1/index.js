@@ -50,7 +50,7 @@ const fs = require('fs')
 const http = require('http') // para criar o servidor
 const url = require('url') // para conseguir passar variaveis pela url
 const replaceTemplate = require('./modules/replaceTemplate')
-const slugify = require('slugify')
+//const slugify = require('slugify')
 
 const templateOverview = fs.readFileSync(`${__dirname}/templates/template-overview.html`, 'utf-8')
 const templateCard = fs.readFileSync(`${__dirname}/templates/template-card.html`, 'utf-8')
@@ -58,8 +58,8 @@ const templateProduct = fs.readFileSync(`${__dirname}/templates/template-product
 
 const data = fs.readFileSync(`${__dirname}/dev-data/data.json`, 'utf-8')
 const dataObj = JSON.parse(data)
-const slugs = dataObj.map(el => slugify(el.productName, {lowercase: true}))
-console.log(slugs)
+//const slugs = dataObj.map(el => slugify(el.productName, {lowercase: true}))
+//console.log(slugs)
 
 // cria o servidor
 const server = http.createServer((req, res) => { 
